@@ -1,33 +1,33 @@
 package my.poi.excel.model;
 
 /**
- * ÑÓÊ±¹¤×÷±íÀà
+ * å»¶æ—¶å·¥ä½œè¡¨ç±»
  * @author yang
  *
  */
 public class ExcelDataVo {
 	
-	// Ô±¹¤±àºÅ
+	// å‘˜å·¥ç¼–å·
 	private String number;
-	// ĞÕÃû
+	// å§“å
 	private String name;
-	// ¶ş¼¶²¿ÃÅ
+	// äºŒçº§éƒ¨é—¨
 	private String secondaryDep;
-	// ÑÓÊ±¹¤×÷ÀàĞÍ(Öµ°à¡¢ÆÕÍ¨¼Ó°à¡¢ÉÏÏß¼Ó°à)
+	// å»¶æ—¶å·¥ä½œç±»å‹(å€¼ç­ã€æ™®é€šåŠ ç­ã€ä¸Šçº¿åŠ ç­)
 	private String workType; 
-	// ÑÓÊ±¹¤×÷ÊÂÓÉ
+	// å»¶æ—¶å·¥ä½œäº‹ç”±
 	private String workCause;
-	// ¹¤×÷ÈÕÀàĞÍ(¹¤×÷ÈÕ¡¢ĞİÏ¢ÈÕ¡¢½Ú¼ÙÈÕ)
+	// å·¥ä½œæ—¥ç±»å‹(å·¥ä½œæ—¥ã€ä¼‘æ¯æ—¥ã€èŠ‚å‡æ—¥)
 	private String workDayType;
-	// ÑÓÊ±¹¤×÷¿ªÊ¼ÈÕÆÚ
+	// å»¶æ—¶å·¥ä½œå¼€å§‹æ—¥æœŸ
 	private String startDate;
-	// ÑÓÊ±¹¤×÷¿ªÊ¼Ê±¼ä
+	// å»¶æ—¶å·¥ä½œå¼€å§‹æ—¶é—´
 	private String startTime;
-	// ÑÓÊ±¹¤×÷½áÊøÈÕÆÚ
+	// å»¶æ—¶å·¥ä½œç»“æŸæ—¥æœŸ
 	private String endDate;
-	// ÑÓÊ±¹¤×÷½áÊøÊ±¼ä
+	// å»¶æ—¶å·¥ä½œç»“æŸæ—¶é—´
 	private String entTime;
-	// ºËËãĞ¡Ê± =IF(F3="¹¤×÷ÈÕ",4,IF(F3="ĞİÏ¢ÈÕ",6,IF(F3="½Ú¼ÙÈÕ",6,0)))
+	// æ ¸ç®—å°æ—¶ =IF(F3="å·¥ä½œæ—¥",4,IF(F3="ä¼‘æ¯æ—¥",6,IF(F3="èŠ‚å‡æ—¥",6,0)))
 	private int totalTime;
 	
 	/**
