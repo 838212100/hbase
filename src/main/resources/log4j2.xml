@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<configuration>
+	<Appenders>
+		<Console name="stdout">
+			<PatternLayout>
+				<Pattern>[%-5p] %d{yyyy-MM-dd HH:mm:ss.SSS} [%c] %m%n</Pattern>
+			</PatternLayout>
+		</Console>
+
+		<RollingFile name="exl" fileName="PoiExcel.log"
+			filePattern="PoiExcel-%d{yyyy-MM-dd}-%i.zip">
+			<PatternLayout>
+				<Pattern>[%-5p] %d{yyyy-MM-dd HH:mm:ss.SSS} [%c] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" />
+			</Policies>
+		</RollingFile>
+
+
+	</Appenders>
+	<Loggers>
+		<logger name="my.poi.excel" level="DEBUG" additivity="true">
+			<appender-ref ref="exl" />
+		</logger>
+
+		<root level="INFO">
+			<!-- <appender-ref ref="exl" /> -->
+			<!-- 开发测试时可打开，投产包必须关闭stdout输出 -->
+			<appender-ref ref="stdout" />
+		</root>
+	</Loggers>
+</configuration>
