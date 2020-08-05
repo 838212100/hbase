@@ -1,19 +1,19 @@
 package my.poi.excel.phpapi;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import my.poi.excel.phpapi.DataModel.DataBen;
+import my.poi.excel.phpapi.model.Data;
 import net.sf.json.JSONObject;
 
 /**
@@ -44,21 +44,23 @@ public class BaiduDateApiUtil {
 			conn.setDoOutput(true);
 			 
 		    // 输出返回结果
-			BufferedInputStream buf = new BufferedInputStream(conn.getInputStream());
+			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "GBK"));
 			
-			int resLen =0;
-			byte[] res = new byte[1024];
-			StringBuilder sb=new StringBuilder();
-			while((resLen=buf.read(res))!=-1){
-			  sb.append(new String(res, 0, resLen));
-			}
+			StringBuilder sb = new StringBuilder();
+			String lines;
+			while ((lines = reader.readLine()) != null) {
+                sb.append(lines);
+            }
 			
-			String jsonStr=sb.toString();
+			String jsonStr = replaceJsonStr(sb.toString());
+			
+			System.out.println(jsonStr);
 			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+			classMap.put("data", Data.class);
 			// 使用JSONObject
 			JSONObject jsonObject = JSONObject.fromObject(jsonStr);
 			// 生成对应类
-			dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class);
+			dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class, classMap);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("获取接口URL问题：" + e.getMessage());
@@ -75,6 +77,20 @@ public class BaiduDateApiUtil {
 	public static int workDayType(DataModel monthDate, String date) {
 		
 		return 0;
+	}
+	
+	/**
+	  * 替换Json串中内容，为了便于转为JavaBean
+	 * "list"会转为List.java类 需要改为："list" -> "dataList"
+	 * "list#num#baidu"会转为list#num#baidu属性，private String list#num#baidu; 命名有错误，不能含有#号，需要改为："list#num#baidu" -> "listNumBaidu"
+	 * @param jsonStr
+	 * @return
+	 */
+	private static String replaceJsonStr(String jsonStr) {
+		String strRep = jsonStr;
+		// 将返回的串中所有 "list" 修改为 "dataList"  将返回的串中所有 "list#num#baidu" 修改为 "listNumBaidu"
+		// 带有"" 号确保唯一性
+		return strRep.replaceAll("\"list\"", "\"dataList\"").replaceAll("\"list#num#baidu\"", "\"listNumBaidu\"");
 	}
 	
 	public static void main(String[] args) {
