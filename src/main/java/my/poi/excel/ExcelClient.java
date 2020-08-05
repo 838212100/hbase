@@ -26,10 +26,10 @@ public class ExcelClient {
 	// 年
 	private static final String YEAR = "2020";
 	// 月
-	private static final String MONTH = "6";
+	private static final String MONTH = "7";
 	
 	// 读入的文件名
-	private static final String INFILENAME = "C:\\Users\\yang\\Desktop\\值班列表2020-06-01-2020-06-30.xls";
+	private static final String INFILENAME = "C:\\Users\\yang\\Desktop\\值班列表2020-07-01-2020-07-31.xls";
 	
 	// 输出的文件名
 	private static final String OUTFILENAME = "C:\\Users\\yang\\Desktop\\2020年延时工作记录表.xls";
