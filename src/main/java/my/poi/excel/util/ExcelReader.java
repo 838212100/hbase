@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import my.poi.excel.model.ExcelDataVo;
 import my.poi.excel.phpapi.BaiduDateApiUtil;
-import my.poi.excel.phpapi.DataModel;
+import my.poi.excel.phpapi.model.DataModel;
 import my.poi.excel.util.Constant.workType;
 
 public class ExcelReader {

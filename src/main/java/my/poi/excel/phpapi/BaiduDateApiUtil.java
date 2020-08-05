@@ -12,8 +12,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import my.poi.excel.phpapi.DataModel.DataBen;
-import my.poi.excel.phpapi.model.Data;
+import my.poi.excel.phpapi.model.*;
 import net.sf.json.JSONObject;
 
 /**
@@ -54,13 +53,26 @@ public class BaiduDateApiUtil {
 			
 			String jsonStr = replaceJsonStr(sb.toString());
 			
-			System.out.println(jsonStr);
 			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 			classMap.put("data", Data.class);
+//			classMap.put("almanac", Almanac.class);
+//			classMap.put("holiday", Holiday.class);
+//			classMap.put("holidaylist", Holidaylist.class);
+//			classMap.put("datalist", Datalist.class);
+			
 			// 使用JSONObject
 			JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-			// 生成对应类
+			// 生成对应类 DataModel
 			dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class, classMap);
+			
+//			if(!dataModel.getData().isEmpty()) {
+//				List<Data> list = dataModel.getData();
+//				for (Data data : list) {
+//					System.out.println((Data)data);
+//				}
+//			}
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("获取接口URL问题：" + e.getMessage());
@@ -97,9 +109,9 @@ public class BaiduDateApiUtil {
 		
 		DataModel model = getCalendar("2020", "5");
 		if(!model.getData().isEmpty()) {
-			List<DataBen> list = model.getData();
-			for (DataBen data : list) {
-				System.out.println((DataBen)data);
+			List<Data> list = model.getData();
+			for (Data data : list) {
+				System.out.println((Data)data);
 			}
 		}
 		System.out.println(model);
