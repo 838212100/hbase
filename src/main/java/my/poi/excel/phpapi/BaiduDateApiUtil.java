@@ -51,33 +51,44 @@ public class BaiduDateApiUtil {
                 sb.append(lines);
             }
 			
-			String jsonStr = replaceJsonStr(sb.toString());
-			
-			Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
-			classMap.put("data", Data.class);
-//			classMap.put("almanac", Almanac.class);
-//			classMap.put("holiday", Holiday.class);
-//			classMap.put("holidaylist", Holidaylist.class);
-//			classMap.put("datalist", Datalist.class);
-			
-			// 使用JSONObject
-			JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-			// 生成对应类 DataModel
-			dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class, classMap);
-			
-//			if(!dataModel.getData().isEmpty()) {
-//				List<Data> list = dataModel.getData();
-//				for (Data data : list) {
-//					System.out.println((Data)data);
-//				}
-//			}
-			
-			
+			List<Holiday> listHoliday = getHoliday(replaceJsonStr(sb.toString()));
+			dataModel = new DataModel();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("获取接口URL问题：" + e.getMessage());
 		}
 		return dataModel;
+	}
+	
+	/**
+	 * 获取所有节假日信息，包括国家串休的节假日
+	 * @param jsonStr
+	 * @return
+	 */
+	private static List<Holiday> getHoliday(String jsonStr){
+		
+//		classMap.put("almanac", Almanac.class);
+//		classMap.put("holiday", Holiday.class);
+//		classMap.put("holidaylist", Holidaylist.class);
+//		classMap.put("datalist", Datalist.class);
+		
+		Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
+		classMap.put("data", Data.class);
+		
+		// 使用JSONObject
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		// 生成对应类 DataModel
+		DataModel dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class, classMap);
+		
+		if(!dataModel.getData().isEmpty()) {
+			List<Data> list = dataModel.getData();
+			for (Data data : list) {
+				System.out.println((Data)data);
+			}
+		}
+		
+		
+		return null;
 	}
 	
 	/**
@@ -101,20 +112,16 @@ public class BaiduDateApiUtil {
 	private static String replaceJsonStr(String jsonStr) {
 		String strRep = jsonStr;
 		// 将返回的串中所有 "list" 修改为 "dataList"  将返回的串中所有 "list#num#baidu" 修改为 "listNumBaidu"
-		// 带有"" 号确保唯一性
+		// 带有"" 号确保找到的内容的唯一性
 		return strRep.replaceAll("\"list\"", "\"dataList\"").replaceAll("\"list#num#baidu\"", "\"listNumBaidu\"");
 	}
 	
 	public static void main(String[] args) {
-		
-		DataModel model = getCalendar("2020", "5");
-		if(!model.getData().isEmpty()) {
-			List<Data> list = model.getData();
-			for (Data data : list) {
-				System.out.println((Data)data);
-			}
+		if(null != getCalendar("2020", "5")) {
+			System.out.println("not null");
+		} else {
+			System.out.println("is null");
 		}
-		System.out.println(model);
 	}
 	
 //	public static void main(String[] args) throws Exception {
