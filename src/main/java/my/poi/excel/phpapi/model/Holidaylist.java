@@ -13,20 +13,28 @@ import java.util.Date;
  */
 public class Holidaylist {
 
-    private String name;
-    private Date startday;
-    public void setName(String name) {
-         this.name = name;
-     }
-     public String getName() {
-         return name;
-     }
+	private String name;
+	private Date startday;
 
-    public void setStartday(Date startday) {
-         this.startday = startday;
-     }
-     public Date getStartday() {
-         return startday;
-     }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setStartday(Date startday) {
+		this.startday = startday;
+	}
+
+	public Date getStartday() {
+		return startday;
+	}
+
+	@Override
+	public String toString() {
+		return "Holidaylist [name=" + name + ", startday=" + startday + "]";
+	}
 
 }

@@ -5,14 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import my.poi.excel.phpapi.model.*;
+import my.poi.excel.phpapi.model.Data;
+import my.poi.excel.phpapi.model.DataModel;
+import my.poi.excel.phpapi.model.Datalist;
+import my.poi.excel.phpapi.model.Holiday;
+import my.poi.excel.phpapi.model.Holidaylist;
 import net.sf.json.JSONObject;
 
 /**
@@ -62,31 +70,46 @@ public class BaiduDateApiUtil {
 	
 	/**
 	 * 获取所有节假日信息，包括国家串休的节假日
+	 * 目前做的情况是将json串一层层的转换为JavaBean
+	 * 需要注意转型的问题，通过JSONObject.toBean处理过的才会转换为想要的java类，注意不能强制转型，会报强转的错
 	 * @param jsonStr
 	 * @return
 	 */
 	private static List<Holiday> getHoliday(String jsonStr){
 		
-//		classMap.put("almanac", Almanac.class);
-//		classMap.put("holiday", Holiday.class);
-//		classMap.put("holidaylist", Holidaylist.class);
-//		classMap.put("datalist", Datalist.class);
-		
+		// map放入Data类信息，用于入口类DataModel中private List<Data> data属性的放入
 		Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 		classMap.put("data", Data.class);
 		
-		// 使用JSONObject
+		// 使用JSONObject转换返回的json串
 		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-		// 生成对应类 DataModel
-		DataModel dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class, classMap);
+		// 转换为类 DataModel json转java入口类
+		DataModel dataModel = (DataModel) JSONObject.toBean(jsonObject, DataModel.class, classMap);
 		
 		if(!dataModel.getData().isEmpty()) {
-			List<Data> list = dataModel.getData();
-			for (Data data : list) {
-				System.out.println((Data)data);
+			// json串中只有一个Data 取0位置的即可
+			Data dataM = dataModel.getData().get(0);
+			// 清除map 放入Datalist类
+			classMap.clear();
+			classMap.put("dataList", Datalist.class);
+			
+			// 获取Holiday 此时获取到的类型为net.sf.ezmorph.bean.MorphDynaBean 需要通过JSONObject转为Holiday类型
+			List<Holiday> holidayList = dataM.getHoliday();
+			Set<Date> setDate = new HashSet<Date>();
+			List<String> listD = new ArrayList<String>();
+			for (int i = 0; i < holidayList.size(); i++) {
+				Holiday holidayModel = (Holiday) JSONObject.toBean(JSONObject.fromObject(holidayList.get(i)), Holiday.class, classMap);
+				System.out.println(holidayList.size());
+				List<Datalist> dataList = holidayModel.getDataList();
+				for(Datalist data : dataList) {
+					listD.add(data.getDate());
+				}
+			}
+			System.out.println(listD.size());
+			for (int i = 0; i < listD.size(); i++) {
+				System.out.println(listD.get(i));
 			}
 		}
-		
 		
 		return null;
 	}
@@ -123,39 +146,5 @@ public class BaiduDateApiUtil {
 			System.out.println("is null");
 		}
 	}
-	
-//	public static void main(String[] args) throws Exception {
-//		// 年
-//		String year = "2020";
-//		// 月
-//		String month = "05";
-//		
-//		URL url = new URL("https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query="+year+"%E5%B9%B4"+month+"%E6%9C%88&resource_id=6018&format=json1");
-//	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//	    conn.setConnectTimeout(10000);
-//	    conn.setRequestMethod("GET");
-//	    conn.setDoInput(true);
-//	    conn.setDoOutput(true);
-//	 
-//	 
-//	    // 输出返回结果
-//	    BufferedInputStream buf = new BufferedInputStream(conn.getInputStream());
-//	    
-//	    int resLen =0;
-//	    byte[] res = new byte[1024];
-//	    StringBuilder sb=new StringBuilder();
-//	    while((resLen=buf.read(res))!=-1){
-//	      sb.append(new String(res, 0, resLen));
-//	    }
-//	     
-//	    String jsonStr=sb.toString();
-//
-//	    System.out.println(jsonStr);
-//	    
-//	    //1、使用JSONObject
-//        JSONObject jsonObject = JSONObject.fromObject(jsonStr);
-//        DataModel dataModel = (DataModel)JSONObject.toBean(jsonObject, DataModel.class);
-//        System.out.println(dataModel.toString());
-//	}
 
 }

@@ -13,20 +13,23 @@ import java.util.Date;
  */
 public class Datalist {
 
-    private Date date;
-    private String status;
-    public void setDate(Date date) {
-         this.date = date;
-     }
-     public Date getDate() {
-         return date;
-     }
+	private String date;
+	private String status;
 
-    public void setStatus(String status) {
-         this.status = status;
-     }
-     public String getStatus() {
-         return status;
-     }
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
 
 }

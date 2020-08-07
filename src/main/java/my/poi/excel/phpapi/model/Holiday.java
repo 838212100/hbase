@@ -6,9 +6,6 @@ package my.poi.excel.phpapi.model;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-
 /**
  * Auto-generated: 2020-08-05 16:32:21
  *
@@ -17,54 +14,65 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Holiday {
 
-    private String desc;
-    private Date festival;
-    @JsonProperty("dataList")
-    private List<Datalist> datalist;
-    @JsonProperty("listNumBaidu")
-    private int listnumbaidu;
-    private String name;
-    private String rest;
-    public void setDesc(String desc) {
-         this.desc = desc;
-     }
-     public String getDesc() {
-         return desc;
-     }
+	private List<Datalist> dataList;
+	private String desc;
+	private Date festival;
+	private int listNumBaidu;
+	private String name;
+	private String rest;
 
-    public void setFestival(Date festival) {
-         this.festival = festival;
-     }
-     public Date getFestival() {
-         return festival;
-     }
+	public void setDataList(List<Datalist> dataList) {
+		this.dataList = dataList;
+	}
 
-    public void setDatalist(List<Datalist> datalist) {
-         this.datalist = datalist;
-     }
-     public List<Datalist> getDatalist() {
-         return datalist;
-     }
+	public List<Datalist> getDataList() {
+		return dataList;
+	}
 
-    public void setListnumbaidu(int listnumbaidu) {
-         this.listnumbaidu = listnumbaidu;
-     }
-     public int getListnumbaidu() {
-         return listnumbaidu;
-     }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public void setName(String name) {
-         this.name = name;
-     }
-     public String getName() {
-         return name;
-     }
+	public String getDesc() {
+		return desc;
+	}
 
-    public void setRest(String rest) {
-         this.rest = rest;
-     }
-     public String getRest() {
-         return rest;
-     }
+	public void setFestival(Date festival) {
+		this.festival = festival;
+	}
 
+	public Date getFestival() {
+		return festival;
+	}
+
+	public void setListNumBaidu(int listNumBaidu) {
+		this.listNumBaidu = listNumBaidu;
+	}
+
+	public int getListNumBaidu() {
+		return listNumBaidu;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setRest(String rest) {
+		this.rest = rest;
+	}
+
+	public String getRest() {
+		return rest;
+	}
+
+	@Override
+	public String toString() {
+		return "Holiday [dataList=" + dataList + ", desc=" + desc + ", festival=" + festival + ", listNumBaidu="
+				+ listNumBaidu + ", name=" + name + ", rest=" + rest + "]";
+	}
+	
 }
