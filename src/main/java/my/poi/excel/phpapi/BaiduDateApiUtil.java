@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -95,19 +96,18 @@ public class BaiduDateApiUtil {
 			
 			// 获取Holiday 此时获取到的类型为net.sf.ezmorph.bean.MorphDynaBean 需要通过JSONObject转为Holiday类型
 			List<Holiday> holidayList = dataM.getHoliday();
-			Set<Date> setDate = new HashSet<Date>();
+			Set<String> setDate = new HashSet<String>();
 			List<String> listD = new ArrayList<String>();
 			for (int i = 0; i < holidayList.size(); i++) {
 				Holiday holidayModel = (Holiday) JSONObject.toBean(JSONObject.fromObject(holidayList.get(i)), Holiday.class, classMap);
-				System.out.println(holidayList.size());
 				List<Datalist> dataList = holidayModel.getDataList();
 				for(Datalist data : dataList) {
-					listD.add(data.getDate());
+					setDate.add(data.getDate());
 				}
 			}
-			System.out.println(listD.size());
-			for (int i = 0; i < listD.size(); i++) {
-				System.out.println(listD.get(i));
+//			System.out.println(listD.size());
+			for (String da : setDate) {
+				System.out.println(da);
 			}
 		}
 		

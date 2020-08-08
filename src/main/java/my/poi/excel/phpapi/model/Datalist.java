@@ -3,7 +3,9 @@
   */
 package my.poi.excel.phpapi.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import my.poi.excel.util.Utils;
 
 /**
  * Auto-generated: 2020-08-05 16:32:21
@@ -15,9 +17,11 @@ public class Datalist {
 
 	private String date;
 	private String status;
+	private LocalDate ldate;
 
 	public void setDate(String date) {
 		this.date = date;
+		this.ldate = Utils.stringToDateFormat(date); 
 	}
 
 	public String getDate() {
@@ -30,6 +34,10 @@ public class Datalist {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public LocalDate getLdate() {
+		return ldate;
 	}
 
 }
