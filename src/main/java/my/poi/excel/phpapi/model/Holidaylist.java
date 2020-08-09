@@ -3,7 +3,9 @@
   */
 package my.poi.excel.phpapi.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import my.poi.excel.util.Utils;
 
 /**
  * Auto-generated: 2020-08-05 16:32:21
@@ -14,7 +16,8 @@ import java.util.Date;
 public class Holidaylist {
 
 	private String name;
-	private Date startday;
+	private String startday;
+	private LocalDate startdayLdate;
 
 	public void setName(String name) {
 		this.name = name;
@@ -24,17 +27,28 @@ public class Holidaylist {
 		return name;
 	}
 
-	public void setStartday(Date startday) {
+	public void setStartday(String startday) {
 		this.startday = startday;
+		this.startdayLdate = Utils.stringToDateFormat(startday); 
 	}
 
-	public Date getStartday() {
+	public String getStartday() {
 		return startday;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "Holidaylist [name=" + name + ", startday=" + startday + "]";
+	/**
+	 * @return the startdayLdate
+	 */
+	public LocalDate getStartdayLdate() {
+		return startdayLdate;
+	}
+
+	/**
+	 * @param startdayLdate the startdayLdate to set
+	 */
+	public void setStartdayLdate(LocalDate startdayLdate) {
+		this.startdayLdate = startdayLdate;
 	}
 
 }

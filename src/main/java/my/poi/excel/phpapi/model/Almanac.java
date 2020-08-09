@@ -3,7 +3,9 @@
   */
 package my.poi.excel.phpapi.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import my.poi.excel.util.Utils;
 
 /**
  * Auto-generated: 2020-08-05 16:32:21
@@ -14,8 +16,10 @@ import java.util.Date;
 public class Almanac {
 
     private String avoid;
-    private Date date;
+    private String date;
+    private LocalDate ldate;
     private String suit;
+    
     public void setAvoid(String avoid) {
          this.avoid = avoid;
      }
@@ -23,10 +27,11 @@ public class Almanac {
          return avoid;
      }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
          this.date = date;
+         this.ldate = Utils.stringToDateFormat(date); 
      }
-     public Date getDate() {
+     public String getDate() {
          return date;
      }
 
@@ -36,5 +41,17 @@ public class Almanac {
      public String getSuit() {
          return suit;
      }
+	/**
+	 * @return the ldate
+	 */
+	public LocalDate getLdate() {
+		return ldate;
+	}
+	/**
+	 * @param ldate the ldate to set
+	 */
+	public void setLdate(LocalDate ldate) {
+		this.ldate = ldate;
+	}
 
 }

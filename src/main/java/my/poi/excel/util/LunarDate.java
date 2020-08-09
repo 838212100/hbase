@@ -1,4 +1,5 @@
 package my.poi.excel.util;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,8 +8,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LunarDate {
-    final private static long[] lunarInfo = new long[]{0x04bd8, 0x04ae0,
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(LunarDate.class);
+	
+    private static final long[] lunarInfo = new long[]{0x04bd8, 0x04ae0,
             0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0,
             0x055d2, 0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540,
             0x0d6a0, 0x0ada2, 0x095b0, 0x14977, 0x04970, 0x0a4b0, 0x0b4b5,
@@ -382,7 +389,7 @@ public class LunarDate {
             "yyyy年M月d日 EEEEE");
 
     /**
-     * 农历日历工具使用演示
+         * 农历日历工具使用演示
      *
      * @param args
      */
@@ -392,8 +399,13 @@ public class LunarDate {
 //        System.out.println(getChinaDate(26));
 //    }
     
+    /**
+         * 根据日期判断是否为节假日
+     * @param date
+     * @return
+     */
     public static int workDayType(String date) {
-    	int dayType = 0;
+    	int dayType = Constant.WORKDAY;
     	if(date == null) {
     		return dayType;
     	}
@@ -418,13 +430,13 @@ public class LunarDate {
 				dayType = Constant.WORKDAY;
 			}
 		} catch (ParseException e) {
-			System.out.println(e.getMessage());
+			LOGGER.info(e.getMessage());
 		}
     	return dayType;
     }
     
     /**
-     * 判断是否为节假日
+         * 判断是否为节假日
      * @param lunarCalendar
      * @return
      */

@@ -3,11 +3,12 @@
   */
 package my.poi.excel.phpapi.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
+import my.poi.excel.util.Utils;
 
 /**
  * Auto-generated: 2020-08-05 16:32:21
@@ -29,8 +30,9 @@ public class Data {
 	private List<Holiday> holiday;
 	private List<Holidaylist> holidaylist;
 	private String key;
-	private Date selectday;
-	private Date url;
+	private String selectday;
+	private LocalDate selectdayLdate;
+	private String url;
 	private String loc;
 	@JsonProperty("SiteId")
 	private int siteid;
@@ -38,7 +40,7 @@ public class Data {
 	private int Version;
 	@JsonProperty("_select_time")
 	private int SelectTime;
-	private Date clicklimit;
+	private String clicklimit;
 	@JsonProperty("ExtendedLocation")
 	private String extendedlocation;
 	@JsonProperty("OriginQuery")
@@ -116,19 +118,20 @@ public class Data {
 		return key;
 	}
 
-	public void setSelectday(Date selectday) {
+	public void setSelectday(String selectday) {
 		this.selectday = selectday;
+		this.selectdayLdate = Utils.stringToDateFormat(selectday); 
 	}
 
-	public Date getSelectday() {
+	public String getSelectday() {
 		return selectday;
 	}
 
-	public void setUrl(Date url) {
+	public void setUrl(String url) {
 		this.url = url;
 	}
 
-	public Date getUrl() {
+	public String getUrl() {
 		return url;
 	}
 
@@ -164,11 +167,11 @@ public class Data {
 		return SelectTime;
 	}
 
-	public void setClicklimit(Date clicklimit) {
+	public void setClicklimit(String clicklimit) {
 		this.clicklimit = clicklimit;
 	}
 
-	public Date getClicklimit() {
+	public String getClicklimit() {
 		return clicklimit;
 	}
 
@@ -235,14 +238,19 @@ public class Data {
 	public String getAppinfo() {
 		return appinfo;
 	}
-//	@Override
-//	public String toString() {
-//		return "Data [stdstg=" + stdstg + ", stdstl=" + stdstl + ", UpdateTime=" + UpdateTime + ", cambrianAppid="
-//				+ cambrianAppid + ", almanac=" + almanac + ", holiday=" + holiday + ", holidaylist=" + holidaylist
-//				+ ", key=" + key + ", selectday=" + selectday + ", url=" + url + ", loc=" + loc + ", siteid=" + siteid
-//				+ ", Version=" + Version + ", SelectTime=" + SelectTime + ", clicklimit=" + clicklimit
-//				+ ", extendedlocation=" + extendedlocation + ", originquery=" + originquery + ", tplt=" + tplt
-//				+ ", resourceid=" + resourceid + ", fetchkey=" + fetchkey + ", roleId=" + roleId + ", dispType="
-//				+ dispType + ", appinfo=" + appinfo + "]";
-//	}
+
+	/**
+	 * @return the selectdayLdate
+	 */
+	public LocalDate getSelectdayLdate() {
+		return selectdayLdate;
+	}
+
+	/**
+	 * @param selectdayLdate the selectdayLdate to set
+	 */
+	public void setSelectdayLdate(LocalDate selectdayLdate) {
+		this.selectdayLdate = selectdayLdate;
+	}
+	
 }

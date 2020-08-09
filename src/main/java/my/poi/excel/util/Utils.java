@@ -1,9 +1,8 @@
 package my.poi.excel.util;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Utils {
 	
@@ -30,24 +29,34 @@ public class Utils {
 		return localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
 	}
 	
-	public static void main(String[] args) {
-		Set<LocalDate> setDate = new HashSet<LocalDate>();
-		LocalDate date1 = stringToDateFormat("2020-8-9");
-//		setDate.add(date1);
-		setDate.add(LocalDate.now());
-		for(LocalDate date : setDate) {
-			System.out.println(date);
-		}
-		if(setDate.contains(date1)) {
-			System.out.println("you");
-		} else {
-			System.out.println("wu");
-		}
-		if(date1.equals(LocalDate.now())) {
-			System.out.println("yiyang");
-		} else {
-			System.out.println("no");
-		}
+	/**
+	  * 判断是否为周末
+	 * @param localDate
+	 * @return
+	 */
+	public static boolean isWeekend(LocalDate localDate) {
+		DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+		return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
 	}
+	
+//	public static void main(String[] args) {
+//		Set<LocalDate> setDate = new HashSet<LocalDate>();
+//		LocalDate date1 = stringToDateFormat("2020-8-9");
+////		setDate.add(date1);
+//		setDate.add(LocalDate.now());
+//		for(LocalDate date : setDate) {
+//			System.out.println(date);
+//		}
+//		if(setDate.contains(date1)) {
+//			System.out.println("you");
+//		} else {
+//			System.out.println("wu");
+//		}
+//		if(date1.equals(LocalDate.now())) {
+//			System.out.println("yiyang");
+//		} else {
+//			System.out.println("no");
+//		}
+//	}
 
 }
