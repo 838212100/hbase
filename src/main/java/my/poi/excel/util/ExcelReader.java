@@ -170,7 +170,6 @@ public class ExcelReader {
 					type = LunarDate.workDayType(date);
 				} else {
 					// 获取接口中的数据进行判断，结果为对的
-					1判断date是不是2020-1-1的形式 而不是2020-01-01
 					type = BaiduDateApiUtil.workDayType(monthDate, date);
 				}
 				

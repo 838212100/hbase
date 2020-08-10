@@ -22,22 +22,22 @@ public class ExcelWriter {
 	
 	private ExcelWriter() {}
 	
-	public static Workbook exportData(List<ExcelDataVo> list, String outFileTitleName) {
+	public static Workbook exportData(List<ExcelDataVo> list, String outFileTitleName, String month) {
 		
-		// Éú³ÉxlsxµÄExcel
+		// ç”Ÿæˆxlsxçš„Excel
         Workbook workbook = new HSSFWorkbook();
         
-        Sheet sheet = buildDataSheet(workbook, outFileTitleName);
-        // ¹¹½¨µ¥Ôª¸ñÑùÊ½
+        Sheet sheet = buildDataSheet(workbook, outFileTitleName, month);
+        // æ„å»ºå•å…ƒæ ¼æ ·å¼
 		CellStyle voCellStyle = voCellStyle(sheet.getWorkbook());
         
-        //¹¹½¨Ã¿ĞĞµÄÊı¾İÄÚÈİ
+        //æ„å»ºæ¯è¡Œçš„æ•°æ®å†…å®¹
         int rowNum = 2;
         for (ExcelDataVo data : list) {
             if (data == null) {
                 continue;
             }
-            //Êä³öĞĞÊı¾İ
+            //è¾“å‡ºè¡Œæ•°æ®
             Row row = sheet.createRow(rowNum++);
             row.setHeight((short) 410);
             convertDataToRow(data, row, voCellStyle);
@@ -46,25 +46,25 @@ public class ExcelWriter {
 	}
 	
 	/**
-         * Éú³Ésheet±í£¬²¢Ğ´ÈëµÚÒ»ĞĞÊı¾İ£¨ÁĞÍ·£©
-     * @param workbook ¹¤×÷²¾¶ÔÏó
-     * @return ÒÑ¾­Ğ´ÈëÁĞÍ·µÄSheet
+         * ç”Ÿæˆsheetè¡¨ï¼Œå¹¶å†™å…¥ç¬¬ä¸€è¡Œæ•°æ®ï¼ˆåˆ—å¤´ï¼‰
+     * @param workbook å·¥ä½œç°¿å¯¹è±¡
+     * @return å·²ç»å†™å…¥åˆ—å¤´çš„Sheet
      */
-	public static Sheet buildDataSheet(Workbook workbook, String outFileTitleName) {
-		Sheet sheet = workbook.createSheet();
-		// ÉèÖÃÄ¬ÈÏĞĞ¸ß
+	public static Sheet buildDataSheet(Workbook workbook, String outFileTitleName, String month) {
+		Sheet sheet = workbook.createSheet(month+"æœˆ");
+		// è®¾ç½®é»˜è®¤è¡Œé«˜
 //		sheet.setDefaultRowHeight((short) 300);
 		
-		// ¹¹½¨µ¥Ôª¸ñÑùÊ½
+		// æ„å»ºå•å…ƒæ ¼æ ·å¼
 		CellStyle cellStyle = buildHeadCellStyle(sheet.getWorkbook());
 		
-		// ÉèÖÃÁĞ¿í
-		// POIÖĞSheetÁĞ¿íÊÇÍ¨¹ı×Ö·û¸öÊıÀ´È·¶¨µÄ£¬ÁĞ¿íµ¥Î»ÎªÒ»¸ö×Ö·û¿í¶ÈµÄ1/256 
-		// Ã¿ÁĞ¿ÉÒÔÏÔÊ¾µÄ×î´ó×Ö·ûÊıÎª255 
+		// è®¾ç½®åˆ—å®½
+		// POIä¸­Sheetåˆ—å®½æ˜¯é€šè¿‡å­—ç¬¦ä¸ªæ•°æ¥ç¡®å®šçš„ï¼Œåˆ—å®½å•ä½ä¸ºä¸€ä¸ªå­—ç¬¦å®½åº¦çš„1/256 
+		// æ¯åˆ—å¯ä»¥æ˜¾ç¤ºçš„æœ€å¤§å­—ç¬¦æ•°ä¸º255 
 		TITLE[] titleArray = Constant.TITLE.values();
 		
 		Row title = sheet.createRow(1);
-		// ĞĞ¸ß
+		// è¡Œé«˜
 		title.setHeight((short) (410 * 4));
 		
 		int defaultWidth = 20*256;
@@ -82,14 +82,14 @@ public class ExcelWriter {
             }
 		}
 		
-		// ÉèÖÃµÚÒ»ĞĞ
+		// è®¾ç½®ç¬¬ä¸€è¡Œ
 		Row head = sheet.createRow(0);
-		// ĞĞ¸ß
+		// è¡Œé«˜
 		head.setHeight((short) 710);
 		Cell cellHead = head.createCell(0);
 		cellHead.setCellValue(outFileTitleName);
 		cellHead.setCellStyle(headFont(workbook));
-		// ºÏ²¢µ¥Ôª¸ñ ´Ó0¿ªÊ¼
+		// åˆå¹¶å•å…ƒæ ¼ ä»0å¼€å§‹
 		CellRangeAddress cellRange1 = new CellRangeAddress(0, 0, (short) 0, (short) titleArray.length - 1);
 		sheet.addMergedRegion(cellRange1);
 		
@@ -97,33 +97,33 @@ public class ExcelWriter {
 	}
 	
 	/**
-	 * Í·ÑùÊ½
+	 * å¤´æ ·å¼
 	 * @param workbook
 	 * @return
 	 */
 	private static CellStyle buildHeadCellStyle(Workbook workbook) {
 		CellStyle style = workbook.createCellStyle();
-        //×óÓÒ¶ÔÆë·½Ê½ÉèÖÃ
+        //å·¦å³å¯¹é½æ–¹å¼è®¾ç½®
         style.setAlignment(HorizontalAlignment.CENTER);
-        //ÉÏÏÂ¶ÔÆë·½Ê½ÉèÖÃ
+        //ä¸Šä¸‹å¯¹é½æ–¹å¼è®¾ç½®
         style.setVerticalAlignment(VerticalAlignment.CENTER);
-        //±ß¿òÑÕÉ«ºÍ¿í¶ÈÉèÖÃ
+        //è¾¹æ¡†é¢œè‰²å’Œå®½åº¦è®¾ç½®
         style.setBorderBottom(BorderStyle.THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex()); // ÏÂ±ß¿ò
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex()); // ä¸‹è¾¹æ¡†
         style.setBorderLeft(BorderStyle.THIN);
-        style.setLeftBorderColor(IndexedColors.BLACK.getIndex()); // ×ó±ß¿ò
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex()); // å·¦è¾¹æ¡†
         style.setBorderRight(BorderStyle.THIN);
-        style.setRightBorderColor(IndexedColors.BLACK.getIndex()); // ÓÒ±ß¿ò
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex()); // å³è¾¹æ¡†
         style.setBorderTop(BorderStyle.THIN);
-        style.setTopBorderColor(IndexedColors.BLACK.getIndex()); // ÉÏ±ß¿ò
-        // ×Ô¶¯»»ĞĞ
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex()); // ä¸Šè¾¹æ¡†
+        // è‡ªåŠ¨æ¢è¡Œ
         style.setWrapText(true);
-        //ÉèÖÃ±³¾°ÑÕÉ«
+        //è®¾ç½®èƒŒæ™¯é¢œè‰²
 //        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 //        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        //´ÖÌå×ÖÉèÖÃ
+        //ç²—ä½“å­—è®¾ç½®
         Font font = workbook.createFont();
-        font.setFontName("ËÎÌå");
+        font.setFontName("å®‹ä½“");
         font.setBold(true);
         style.setFont(font);
         return style;
@@ -131,12 +131,12 @@ public class ExcelWriter {
 	
 	private static CellStyle headFont(Workbook workbook) {
 		CellStyle style = workbook.createCellStyle();
-		//×óÓÒ¶ÔÆë·½Ê½ÉèÖÃ
+		//å·¦å³å¯¹é½æ–¹å¼è®¾ç½®
         style.setAlignment(HorizontalAlignment.CENTER);
-        //ÉÏÏÂ¶ÔÆë·½Ê½ÉèÖÃ
+        //ä¸Šä¸‹å¯¹é½æ–¹å¼è®¾ç½®
         style.setVerticalAlignment(VerticalAlignment.CENTER);
 		Font font = workbook.createFont();
-        font.setFontName("ËÎÌå");
+        font.setFontName("å®‹ä½“");
         font.setBold(true);
         font.setFontHeightInPoints((short) 16);
         style.setFont(font);
@@ -144,82 +144,82 @@ public class ExcelWriter {
 	}
 	
 	/**
-     * ½«Êı¾İ×ª»»³ÉĞĞ
-     * @param data Ô´Êı¾İ
-     * @param row ĞĞ¶ÔÏó
+     * å°†æ•°æ®è½¬æ¢æˆè¡Œ
+     * @param data æºæ•°æ®
+     * @param row è¡Œå¯¹è±¡
      * @return
      */
     private static void convertDataToRow(ExcelDataVo data, Row row, CellStyle voCellStyle){
         int cellNum = 0;
         Cell cell;
-        // Ô±¹¤±àºÅ
+        // å‘˜å·¥ç¼–å·
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getNumber());
         cell.setCellStyle(voCellStyle);
-        // ĞÕÃû
+        // å§“å
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getName());
         cell.setCellStyle(voCellStyle);
-        // ¶ş¼¶²¿ÃÅ
+        // äºŒçº§éƒ¨é—¨
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getSecondaryDep());
         cell.setCellStyle(voCellStyle);
-        // ÑÓÊ±¹¤×÷ÀàĞÍ
+        // å»¶æ—¶å·¥ä½œç±»å‹
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getWorkType());
         cell.setCellStyle(voCellStyle);
-        // ÑÓÊ±¹¤×÷ÊÂÓÉ
+        // å»¶æ—¶å·¥ä½œäº‹ç”±
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getWorkCause());
         cell.setCellStyle(voCellStyle);
-        // ¼ÙÆÚÀàĞÍ
+        // å‡æœŸç±»å‹
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getWorkDayType());
         cell.setCellStyle(voCellStyle);
-        // ÑÓÊ±¹¤×÷¿ªÊ¼ÈÕÆÚ
+        // å»¶æ—¶å·¥ä½œå¼€å§‹æ—¥æœŸ
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getStartDate());
         cell.setCellStyle(voCellStyle);
-        // ÑÓÊ±¹¤×÷¿ªÊ¼Ê±¼ä
+        // å»¶æ—¶å·¥ä½œå¼€å§‹æ—¶é—´
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getStartTime());
         cell.setCellStyle(voCellStyle);
-        // ÑÓÊ±¹¤×÷½áÊøÈÕÆÚ
+        // å»¶æ—¶å·¥ä½œç»“æŸæ—¥æœŸ
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getEndDate());
         cell.setCellStyle(voCellStyle);
-        // ÑÓÊ±¹¤×÷½áÊøÊ±¼ä
+        // å»¶æ—¶å·¥ä½œç»“æŸæ—¶é—´
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getEntTime());
         cell.setCellStyle(voCellStyle);
-        // ºËËãĞ¡Ê±Êı
+        // æ ¸ç®—å°æ—¶æ•°
         cell = row.createCell(cellNum++);
         cell.setCellValue(data.getTotalTime());
         cell.setCellStyle(voCellStyle);
         int rowNum = row.getRowNum()+1;
-        cell.setCellFormula("IF(F"+rowNum+"=\"¹¤×÷ÈÕ\",4,IF(F"+rowNum+"=\"ĞİÏ¢ÈÕ\",6,IF(F"+rowNum+"=\"½Ú¼ÙÈÕ\",6,0)))");
+        cell.setCellFormula("IF(F"+rowNum+"=\"å·¥ä½œæ—¥\",4,IF(F"+rowNum+"=\"ä¼‘æ¯æ—¥\",6,IF(F"+rowNum+"=\"èŠ‚å‡æ—¥\",6,0)))");
     }
     
     /**
-     *	 ÕıÎÄÑùÊ½
+     *	 æ­£æ–‡æ ·å¼
      * @param workbook
      * @return
      */
     private static CellStyle voCellStyle(Workbook workbook) {
 		CellStyle style = workbook.createCellStyle();
-        //×óÓÒ¶ÔÆë·½Ê½ÉèÖÃ
+        //å·¦å³å¯¹é½æ–¹å¼è®¾ç½®
         style.setAlignment(HorizontalAlignment.CENTER);
-        //ÉÏÏÂ¶ÔÆë·½Ê½ÉèÖÃ
+        //ä¸Šä¸‹å¯¹é½æ–¹å¼è®¾ç½®
         style.setVerticalAlignment(VerticalAlignment.CENTER);
-        //±ß¿òÑÕÉ«ºÍ¿í¶ÈÉèÖÃ
+        //è¾¹æ¡†é¢œè‰²å’Œå®½åº¦è®¾ç½®
         style.setBorderBottom(BorderStyle.THIN);
-        style.setBottomBorderColor(IndexedColors.BLACK.getIndex()); // ÏÂ±ß¿ò
+        style.setBottomBorderColor(IndexedColors.BLACK.getIndex()); // ä¸‹è¾¹æ¡†
         style.setBorderLeft(BorderStyle.THIN);
-        style.setLeftBorderColor(IndexedColors.BLACK.getIndex()); // ×ó±ß¿ò
+        style.setLeftBorderColor(IndexedColors.BLACK.getIndex()); // å·¦è¾¹æ¡†
         style.setBorderRight(BorderStyle.THIN);
-        style.setRightBorderColor(IndexedColors.BLACK.getIndex()); // ÓÒ±ß¿ò
+        style.setRightBorderColor(IndexedColors.BLACK.getIndex()); // å³è¾¹æ¡†
         style.setBorderTop(BorderStyle.THIN);
-        style.setTopBorderColor(IndexedColors.BLACK.getIndex()); // ÉÏ±ß¿ò
+        style.setTopBorderColor(IndexedColors.BLACK.getIndex()); // ä¸Šè¾¹æ¡†
         return style;
 	}
     

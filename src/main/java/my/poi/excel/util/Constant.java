@@ -13,7 +13,12 @@ public class Constant {
 	// 周末
 	public static final int WEEKEND = 1; 
 	// 工作日
-	public static final int WORKDAY = 0; 
+	public static final int WORKDAY = 0;
+	// Json返回日期的状态值  status=1 代表节假日
+	public static final int JSONSTATUSHOLIDAYS = 1;
+	// Json返回日期的状态值  status=2 代表工作日
+	public static final int JSONSTATUSWORKDAY = 2;
+	
 	
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
 	// 工作日核算小时数为 4 小时

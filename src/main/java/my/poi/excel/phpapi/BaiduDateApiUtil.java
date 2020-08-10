@@ -5,13 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,39 +127,32 @@ public class BaiduDateApiUtil {
 	 * @param date
 	 * @return
 	 */
-	public static int workDayType(DataModel monthDate, String date) {1判断date是不是2020-1-1的形式 而不是2020-01-01
+	public static int workDayType(DataModel monthDate, String date) {
 		// 字符串转换为日期
 		LocalDate ldate = Utils.stringToDateFormat(date);
 		// 2节假日  1周末  0工作日
 		int dayType = Constant.WORKDAY;
-		// 将所有的节日放入
-		Set<LocalDate> setDate = new HashSet<LocalDate>();
+		// 将所有的节日的日期和状态放入 状态1为节假日、2为工作日
+		Map<LocalDate, String> mapDate = new HashMap<LocalDate, String>();
 		List<Holiday> holidaylist = monthDate.getData().get(0).getHoliday();
 		for (int i = 0; i < holidaylist.size(); i++) {
 			List<Datalist> datalist = holidaylist.get(i).getDataList();
 			for(Datalist data : datalist) {
-				setDate.add(data.getLdate());
+				mapDate.put(data.getLdate(), data.getStatus());
 			}
 		}
-		// 判断是否为节假日 在Set中有，则为节假日
-		if(setDate.contains(ldate)) {
+		// 判断是否为节假日 在Map中有，则为节假日 2在json传中为返回的日子的状态，2表示为工作日
+		if(mapDate.containsKey(ldate) && String.valueOf(Constant.JSONSTATUSHOLIDAYS).equals(mapDate.get(ldate))) {
 			dayType = Constant.HOLIDAYS;
 		}
 		// 判断是否为周末
 		if(dayType == 0) {
-			if(Utils.isWeekend(ldate)){
+			// 如果为周末 但在Map中的status不能为2，2表示为工作日
+			if(Utils.isWeekend(ldate) && !String.valueOf(Constant.JSONSTATUSWORKDAY).equals(mapDate.get(ldate))){
 				dayType = Constant.WEEKEND;
 			}
 		}
 		return dayType;
-	}
-	
-	public static void main(String[] args) {
-//		if(null != getCalendar("2020", "5")) {
-//			System.out.println("not null");
-//		} else {
-//			System.out.println("is null");
-//		}
 	}
 
 }

@@ -28,7 +28,7 @@ public class ExcelClient {
 	// 月
 	private static final String MONTH = "7";
 	
-	// 读入的文件名
+	// 读入的文件名 后缀是xls 、xlsx均可
 	private static final String INFILENAME = "C:\\Users\\yang\\Desktop\\值班列表2020-07-01-2020-07-31.xls";
 	
 	// 输出的文件名
@@ -42,7 +42,8 @@ public class ExcelClient {
 		List<ExcelDataVo> list = ExcelReader.readExcel(INFILENAME, YEAR, MONTH);
 		
 		// 写入数据到工作簿对象内
-		Workbook workbook = ExcelWriter.exportData(list, outFileTitleName);
+		Workbook workbook = ExcelWriter.exportData(list, outFileTitleName, MONTH);
+		workbook.getCreationHelper().createFormulaEvaluator().evaluateAll();
 		
 		// 以文件的形式输出工作簿对象
 		FileOutputStream fileOut = null;
@@ -60,11 +61,11 @@ public class ExcelClient {
 			LOGGER.error("输出Excel出错，原因：" + e.getMessage());
 		} finally {
 			try {
-				if(null != fileOut) {
-					fileOut.close();
-				}
 				if(null != workbook) {
 					workbook.close();
+				}
+				if(null != fileOut) {
+					fileOut.close();
 				}
 			} catch (IOException e) {
 				LOGGER.error("关闭流时出错，原因：" + e.getMessage());
