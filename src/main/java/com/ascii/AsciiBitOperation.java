@@ -42,16 +42,18 @@ public class AsciiBitOperation {
             	// 1L 相当于 long a = 1L ,L表示long 占用8个字节 , 默认为int 所以1L
             	// 位运算符的优先级低于 + - 相当于 1L << (c - 64)
                 long bitIndex = 1L << c - 64;
-                System.out.println("char = " + c);
+                System.out.println("char = " + c + ", "+ (int)c);
                 System.out.println("high64 = " + high64 + ",  \t" + buQuan0(Long.toBinaryString(high64)));
                 System.out.println("bitIndex = " + bitIndex + ",  \t" + buQuan0(Long.toBinaryString(bitIndex)));
                 System.out.print("high64 & bitIndex = ");
                 System.out.println(high64 & bitIndex);
-                System.out.println("-----------");
+                
                 if ((high64 & bitIndex) != 0) {
                     return false;
                 }
-
+                System.out.print("high64 |= bitIndex = ");
+                System.out.println(high64 |= bitIndex);
+                System.out.println("-----------");
                 high64 |= bitIndex;
             } else {
                 long bitIndex = 1L << c;
