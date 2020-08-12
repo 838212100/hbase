@@ -19,12 +19,8 @@ public class AsciiBitOperation {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String str = "ABCA";
+		String str = "AB";
 		System.out.println(isUnique(str));
-		System.out.println('A' & 'B');
-		System.out.println(2L & 4L);
-		System.out.println(6L & 8L);
-		System.out.println(14L & 16L);
 	}
 	
 	/**
@@ -36,24 +32,26 @@ public class AsciiBitOperation {
 		
 		long low64 = 0;
         long high64 = 0;
+        System.out.println("字符 \t ASCII值 \t high64 \t index \t \t & \t |(high64) \t");
+        System.out.println();
 
         for (char c : astr.toCharArray()) {
             if (c >= 64) {
             	// 1L 相当于 long a = 1L ,L表示long 占用8个字节 , 默认为int 所以1L
             	// 位运算符的优先级低于 + - 相当于 1L << (c - 64)
-                long bitIndex = 1L << c - 64;
-                System.out.println("char = " + c + ", "+ (int)c);
-                System.out.println("high64 = " + high64 + ",  \t" + buQuan0(Long.toBinaryString(high64)));
-                System.out.println("bitIndex = " + bitIndex + ",  \t" + buQuan0(Long.toBinaryString(bitIndex)));
-                System.out.print("high64 & bitIndex = ");
-                System.out.println(high64 & bitIndex);
+                long bitIndex = 1L << c;
+                System.out.print(c + " \t "+ (int)c);
+                System.out.print(" \t  \t " + high64 + "(" + buQuan0(Long.toBinaryString(high64)) + ")");
+                System.out.print(" \t " + bitIndex + "(" + buQuan0(Long.toBinaryString(bitIndex)) + ")" + " \t ");
+                System.out.print(high64 & bitIndex);
+                System.out.print(" \t ");
                 
                 if ((high64 & bitIndex) != 0) {
+                	sysout();
                     return false;
                 }
-                System.out.print("high64 |= bitIndex = ");
                 System.out.println(high64 |= bitIndex);
-                System.out.println("-----------");
+                sysout();
                 high64 |= bitIndex;
             } else {
                 long bitIndex = 1L << c;
@@ -67,6 +65,11 @@ public class AsciiBitOperation {
         return true;
 	}
 	
+	/**
+	  * 进行0补全
+	 * @param str
+	 * @return
+	 */
 	private static String buQuan0(String str) {
 		int len = str.length();
 		if(len < 8) {
@@ -80,4 +83,7 @@ public class AsciiBitOperation {
 		return str;
 	}
 
+	private static void sysout() {
+		 System.out.println("-----------------------------------------------------------------------------");
+	}
 }
