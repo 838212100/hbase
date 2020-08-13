@@ -19,8 +19,11 @@ public class AsciiBitOperation {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String str = "AB";
-		System.out.println(isUnique(str));
+		String str = "FDCBA";
+		boolean flag = isUnique(str);
+		sysout();
+		System.out.println(flag);
+		
 	}
 	
 	/**
@@ -29,25 +32,29 @@ public class AsciiBitOperation {
 	 * @return
 	 */
 	public static boolean isUnique(String astr) {
+		System.out.println("输入的串：" + astr);
+		System.out.println();
 		
 		long low64 = 0;
         long high64 = 0;
-        System.out.println("字符 \t ASCII值 \t high64 \t index \t \t & \t |(high64) \t");
+        System.out.println("字符 \t ASCII值 \t high64 \t 位移量(<<) \t index \t \t & \t |(high64) \t");
         System.out.println();
 
         for (char c : astr.toCharArray()) {
             if (c >= 64) {
             	// 1L 相当于 long a = 1L ,L表示long 占用8个字节 , 默认为int 所以1L
             	// 位运算符的优先级低于 + - 相当于 1L << (c - 64)
-                long bitIndex = 1L << c;
-                System.out.print(c + " \t "+ (int)c);
-                System.out.print(" \t  \t " + high64 + "(" + buQuan0(Long.toBinaryString(high64)) + ")");
-                System.out.print(" \t " + bitIndex + "(" + buQuan0(Long.toBinaryString(bitIndex)) + ")" + " \t ");
+                long bitIndex = 1L << c - 64;
+                System.out.println(" \t " + " \t " + " \t " + high64 + " \t  \t " + (int) c + "-64=" + ((int) c - 64) + " \t " + bitIndex + "(1L << " + ((int) c - 64) + ")");
+                
+                System.out.print(c + " \t " + (int)c);
+                System.out.print(" \t  \t " + buQuan0(Long.toBinaryString(high64)) + " \t \t ");
+                System.out.print(" \t " + buQuan0(Long.toBinaryString(bitIndex)) + " \t ");
                 System.out.print(high64 & bitIndex);
                 System.out.print(" \t ");
                 
                 if ((high64 & bitIndex) != 0) {
-                	sysout();
+                	System.out.println("重复");
                     return false;
                 }
                 System.out.println(high64 |= bitIndex);
@@ -84,6 +91,6 @@ public class AsciiBitOperation {
 	}
 
 	private static void sysout() {
-		 System.out.println("-----------------------------------------------------------------------------");
+		 System.out.println("------------------------------------------------------------------------------------------");
 	}
 }
