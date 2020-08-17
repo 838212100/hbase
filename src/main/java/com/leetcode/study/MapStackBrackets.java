@@ -4,6 +4,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+  * 题目描述：
+  * 输入一个字符串，判断该括号字符串是否按一定顺序放入的，括号分别有()、[]、{}。例如 () 、{[]} 、{[()]} 均为合格， 例如 {[(]} 、{[)(]} 为不合格 
+  * 思路：
+  * 括号是固定的，放入map作为校验的内容
+  * 既然是有顺序的，以先进后出的形式来做(栈)，先放入的在栈底，
+  * 循环判断每个字符是否为map中的key，为key继续，不为key需要判断该字符是否等于栈底字符key对应的value值，相等则符合要求，不等则退出为不符合
+ * @author yang
+ *
+ */
 public class MapStackBrackets {
 	
 	public static void main(String[] args) {
@@ -11,6 +21,7 @@ public class MapStackBrackets {
 		System.out.println(isVaild("{[([])]}"));
 		System.out.println(isVaild("{[(3)]}"));
 		System.out.println(isVaild("{[]}"));
+		System.out.println(isVaild("{[()()]}"));
 		System.out.println(isVaild("()"));
 		System.out.println(isVaild(""));
 	}
