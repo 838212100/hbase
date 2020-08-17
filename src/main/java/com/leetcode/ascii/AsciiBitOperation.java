@@ -1,4 +1,4 @@
-package com.ascii;
+package com.leetcode.ascii;
 
 public class AsciiBitOperation {
 	
