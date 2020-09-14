@@ -46,6 +46,7 @@ public class BaiduDateApiUtil {
 	public static DataModel getCalendar(String year, String month) {
 		DataModel dataModel = null;
 		try {
+			// https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query=2020年7月&resource_id=6018&format=json 
 			URL url = new URL("https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query="+year+"%E5%B9%B4"+month+"%E6%9C%88&resource_id=6018&format=json");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(10000);
