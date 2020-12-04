@@ -51,7 +51,9 @@ public class BaiduDateApiUtil {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(10000);
 			conn.setRequestMethod("GET");
+			// 允许输入流
 			conn.setDoInput(true);
+			// 允许输出流
 			conn.setDoOutput(true);
 			 
 		    // 输出返回结果
