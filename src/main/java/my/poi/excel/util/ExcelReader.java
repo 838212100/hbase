@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import my.poi.excel.datejson.ReadDateJsonUtil;
 import my.poi.excel.model.ExcelDataVo;
 import my.poi.excel.phpapi.BaiduDateApiUtil;
 import my.poi.excel.phpapi.model.DataModel;
@@ -164,13 +166,19 @@ public class ExcelReader {
 				vo.setStartDate(date);
 				
 				// 要修改的地方
-				int type = 0 ;
-				// 在没有查到对应数据或者没网的时候，走程序中的日历，结果中日期类型不准确 需要在看一下，因为国家会串节假日
+				Integer type = null;
+				// 没网的时候，走程序中的日历，结果中日期类型不准确 需要在看一下，因为国家会串节假日
 				if(null == monthDate) {
 					type = LunarDate.workDayType(date);
 				} else {
 					// 获取接口中的数据进行判断，结果为对的
 					type = BaiduDateApiUtil.workDayType(monthDate, date);
+				}
+				
+				if(null == type) {
+					//  获取周末与节假日json数据
+			    	Map<String, Map<String, String>> holidaysOrWeekJson = ReadDateJsonUtil.getDateJsonMap();
+					type = ReadDateJsonUtil.workDayType(holidaysOrWeekJson, date);
 				}
 				
 				if(type > Constant.WORKDAY) {
