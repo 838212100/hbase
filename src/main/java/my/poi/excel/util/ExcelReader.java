@@ -47,6 +47,15 @@ public class ExcelReader {
 		return workbook;
 	}
 	
+	/**
+	  * 根据文件名读取Excel中的数据
+	 * <p>Title: readExcel</p>  
+	 * <p>Description: </p>  
+	 * @param fileName
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public static List<ExcelDataVo> readExcel(String fileName, String year, String month) {
 		
 		Workbook workbook = null;
@@ -72,6 +81,7 @@ public class ExcelReader {
 			
 			for(ExcelDataVo vo : resultList) {
 				System.out.println(vo.toString());
+				LOGGER.info(vo.toString());
 			}
 			
 			return resultList;
@@ -165,21 +175,24 @@ public class ExcelReader {
 				String date = cell.getStringCellValue();
 				vo.setStartDate(date);
 				
-				// 要修改的地方
-				Integer type = null;
+//				// 
+//				Integer type = null;
 				// 没网的时候，走程序中的日历，结果中日期类型不准确 需要在看一下，因为国家会串节假日
-				if(null == monthDate) {
-					type = LunarDate.workDayType(date);
-				} else {
-					// 获取接口中的数据进行判断，结果为对的
-					type = BaiduDateApiUtil.workDayType(monthDate, date);
-				}
+//				if(null == monthDate) {
+//					type = LunarDate.workDayType(date);
+//				} else {
+//					// 获取接口中的数据进行判断，结果为对的
+//					type = BaiduDateApiUtil.workDayType(monthDate, date);
+//				}
 				
-				if(null == type) {
-					//  获取周末与节假日json数据
-			    	Map<String, Map<String, String>> holidaysOrWeekJson = ReadDateJsonUtil.getDateJsonMap();
-					type = ReadDateJsonUtil.workDayType(holidaysOrWeekJson, date);
-				}
+				/*
+				  * 获取周末与节假日json数据，因为
+				 * 1.没有网的方法判断的结果不准确
+				 * 2.BaiduDateApiUtil里的接口 2021年开始就用不了了
+				 */
+				Map<String, Map<String, String>> holidaysOrWeekJson = ReadDateJsonUtil.getDateJsonMap();
+				Integer type = ReadDateJsonUtil.workDayType(holidaysOrWeekJson, date);
+				
 				
 				if(type > Constant.WORKDAY) {
 					vo.setTotalTime(Constant.HOLIDAYSTOTALTIME);
