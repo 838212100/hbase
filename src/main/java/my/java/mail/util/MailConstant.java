@@ -12,7 +12,7 @@ public class MailConstant {
     // 网易126邮箱的 SMTP 服务器地址为: smtp.126.com
 	public static final String EMAIL_SMTPHOST = "smtp." + MAIL_SUFFIX_PART;
 	
-	// 邮箱后缀 @travelsky.com.cn
+	// 邮箱后缀 @qq.com
 	public static final String MAIL_SUFFIX = MAIL_SYMBOL + MAIL_SUFFIX_PART;
 	
 	// -------------------------------------- 需要修改的内容 --------------------------------------------------
