@@ -18,10 +18,26 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import my.poi.excel.model.ExcelDataVo;
 import my.poi.excel.util.Constant.TITLE;
 
+/**
+ * 
+ * <p>Title: ExcelWriter</p>  
+ * <p>Description: </p>  
+ * @author runyang
+ * @date 2021-3-26
+ */
 public class ExcelWriter {
 	
 	private ExcelWriter() {}
 	
+	/**
+	 * 写入数据
+	 * <p>Title: exportData</p>  
+	 * <p>Description: </p>  
+	 * @param list
+	 * @param outFileTitleName
+	 * @param month
+	 * @return
+	 */
 	public static Workbook exportData(List<ExcelDataVo> list, String outFileTitleName, String month) {
 		
 		// 生成xlsx的Excel

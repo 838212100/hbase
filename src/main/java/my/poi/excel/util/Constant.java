@@ -2,22 +2,35 @@ package my.poi.excel.util;
 
 /**
  * 一些常量
+ * 三种节假日定义的内容互不影响，无需太多关注
  * @author yang
  *
  */
 public class Constant {
 	
 	public static final String SECONDARYDEP = "机场产品开发与交付部"; 
+	
+	// ---------- 自己定义的 ---------- 
 	// 节假日
 	public static final int HOLIDAYS = 2; 
 	// 周末
 	public static final int WEEKEND = 1; 
 	// 工作日
 	public static final int WORKDAY = 0;
+	
+	// ---------- 联网查询接口返回的状态 ---------- 
 	// Json返回日期的状态值  status=1 代表节假日
 	public static final int JSONSTATUSHOLIDAYS = 1;
 	// Json返回日期的状态值  status=2 代表工作日
 	public static final int JSONSTATUSWORKDAY = 2;
+	
+	
+	// ---------- Json文件中内容 ---------- 
+	// 1表示休息日
+	public static final int JSONFILESTATUSWEEKEND = 1;
+	// 2表示节假日
+	public static final int JSONFILESTATUSHOLIDAYS = 2;
+	
 	
 	
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";

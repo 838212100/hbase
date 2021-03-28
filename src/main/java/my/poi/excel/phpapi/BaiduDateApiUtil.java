@@ -46,11 +46,14 @@ public class BaiduDateApiUtil {
 	public static DataModel getCalendar(String year, String month) {
 		DataModel dataModel = null;
 		try {
+			// https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query=2020年7月&resource_id=6018&format=json 
 			URL url = new URL("https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query="+year+"%E5%B9%B4"+month+"%E6%9C%88&resource_id=6018&format=json");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setConnectTimeout(10000);
 			conn.setRequestMethod("GET");
+			// 允许输入流
 			conn.setDoInput(true);
+			// 允许输出流
 			conn.setDoOutput(true);
 			 
 		    // 输出返回结果
@@ -102,6 +105,8 @@ public class BaiduDateApiUtil {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("获取接口URL问题：" + e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error("获取接口问题：" + e.getMessage());
 		}
 		return dataModel;
 	}
@@ -127,14 +132,17 @@ public class BaiduDateApiUtil {
 	 * @param date
 	 * @return
 	 */
-	public static int workDayType(DataModel monthDate, String date) {
+	public static Integer workDayType(DataModel monthDate, String date) {
 		// 字符串转换为日期
 		LocalDate ldate = Utils.stringToDateFormat(date);
 		// 2节假日  1周末  0工作日
-		int dayType = Constant.WORKDAY;
+		Integer dayType = Constant.WORKDAY;
 		// 将所有的节日的日期和状态放入 状态1为节假日、2为工作日
 		Map<LocalDate, String> mapDate = new HashMap<LocalDate, String>();
 		List<Holiday> holidaylist = monthDate.getData().get(0).getHoliday();
+		if(null == holidaylist) {
+			return null;
+		}
 		for (int i = 0; i < holidaylist.size(); i++) {
 			List<Datalist> datalist = holidaylist.get(i).getDataList();
 			for(Datalist data : datalist) {
