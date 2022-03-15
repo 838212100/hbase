@@ -19,10 +19,10 @@ public class Utils {
 	public static LocalDate stringToDateFormat(String dateStr) {
 		return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(YYYYMMDD));
 	}
-	
+
 	/**
 	 * 日期转字符串
-	 * @param date
+	 * @param localDate
 	 * @return
 	 */
 	public static String dateToStringFormat(LocalDate localDate) {
